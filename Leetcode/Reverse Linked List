@@ -1,0 +1,17 @@
+206. Reverse Linked List
+Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+Solution:-
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == NULL || head->next == NULL) {
+            return head;
+        }
+        ListNode* newHead = reverseList(head->next);
+        ListNode* front = head->next;
+        front->next = head;
+        head->next = NULL;
+        return newHead;
+    }
+};
