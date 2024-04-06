@@ -1,0 +1,76 @@
+1249. Minimum Remove to Make Valid Parentheses
+Given a string s of '(' , ')' and lowercase English characters.
+Your task is to remove the minimum number of parentheses ( '(' or ')', in any positions ) so that the resulting parentheses string is valid and return any valid string.
+Formally, a parentheses string is valid if and only if:
+It is the empty string, contains only lowercase characters, or
+It can be written as AB (A concatenated with B), where A and B are valid strings, or
+It can be written as (A), where A is a valid string.
+ 
+Example 1:
+Input: s = "lee(t(c)o)de)"
+Output: "lee(t(c)o)de"
+Explanation: "lee(t(co)de)" , "lee(t(c)ode)" would also be accepted.
+
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        int n = s.length();
+        /* Approach 1 - using Stack and set
+        stack<int> st;
+        unordered_set<int>set;
+        for(int i=0;i<n;i++){
+            if(s[i] == '(') st.push(i);
+            else if(s[i] == ')'){
+                if(st.empty()) set.insert(i);
+                else st.pop();
+            }
+        }
+        //Only open brackets in the string
+        while(!st.empty()){
+            set.insert(st.top());
+            st.pop();
+        }
+        string result = "";
+        for(int i=0;i<n;i++){
+            if(set.find(i) == set.end()){
+                result.push_back(s[i]);
+            }
+        }
+        return result;*/
+
+        /* Approach 2 
+        Iterate left to right - eliminate extra close bracket
+        Iterate right to left - eliminate extra open bracket*/
+
+        int opening = 0;
+        string result = "";
+
+        for(int i=0;i<n;i++){
+            if(s[i] >='a' && s[i]<='z') result.push_back(s[i]);
+            else if(s[i] == '('){
+                opening++;
+                result.push_back(s[i]);
+            }
+            else if(opening>0){
+                opening--;
+                result.push_back(s[i]);
+            }
+        }
+
+        int closing = 0;
+        string final_result = "";
+        for(int i = result.length()-1;i>=0;i--){
+            if(result[i] >='a' && result[i]<='z') final_result.push_back(result[i]);
+            else if(result[i] == ')'){
+                closing++;
+                final_result.push_back(result[i]);
+            }
+            else if(closing>0){
+                closing--;
+                final_result.push_back(result[i]);
+            }
+        }
+        reverse(begin(final_result), end(final_result));
+        return final_result;
+    }
+};
