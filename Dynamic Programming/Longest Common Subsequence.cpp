@@ -1,0 +1,27 @@
+/*1143. Longest Common Subsequence
+Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.
+A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+For example, "ace" is a subsequence of "abcde".
+A common subsequence of two strings is a subsequence that is common to both strings.*/
+
+Solution 1: Using Recursion
+class Solution {
+public:
+    int LCS(string &text1, string &text2, int n, int m){
+        if(n == 0 || m == 0){
+            return 0;
+        }
+        if(text1[n-1] == text2[m-1]){
+            return 1+ LCS(text1, text2, n-1, m-1);
+        }
+        else{
+            return max(LCS(text1, text2, n-1, m), LCS(text1, text2, n, m-1));
+        }
+    }
+    int longestCommonSubsequence(string text1, string text2) {
+        int n = text1.length();
+        int m = text2.length();
+
+        return LCS(text1, text2, n, m);
+    }
+};
